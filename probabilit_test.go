@@ -88,3 +88,30 @@ func TestNormalCdf(t *testing.T) {
 		}
 	}
 }
+
+func TestInverseNormalCdf(t *testing.T) {
+	cases := []struct {
+		p                    float64
+		mu, sigma, tolerance float64
+		want                 float64
+	}{
+		{1.0, MU, SIGMA, TOLERANCE, 8.75},
+		{0.2, MU, SIGMA, TOLERANCE, -0.8416271209716797},
+		{0.5, MU, SIGMA, TOLERANCE, 0.0},
+		{1.0, 1, SIGMA, TOLERANCE, 9.75},
+		{1.0, MU, 2, TOLERANCE, 17.5},
+		{1.0, MU, SIGMA, 2 * TOLERANCE, 8.75},
+		{1.0, MU, SIGMA, 0.1, 8.75},
+		{1.0, 2, 2, 0.0, 19.5},
+		{1.0, 2, 2, 2.0, 19.5},
+		{0.0, 0, 0, 0.0, 0.0},
+	}
+
+	for _, c := range cases {
+		got := InverseNormalCdf(c.p, c.mu, c.sigma, c.tolerance)
+		if got != c.want {
+			t.Errorf("InverseNormalCdf(%v,%v,%v,%v) want: %v but got: %v",
+				c.p, c.mu, c.sigma, c.tolerance, c.want, got)
+		}
+	}
+}

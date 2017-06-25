@@ -4,6 +4,7 @@ import "math"
 
 const SIGMA = 1.0
 const MU = 0.0
+const TOLERANCE = 0.00001
 
 func UniformPdf(x float64) (result int) {
 	result = 0
@@ -33,4 +34,25 @@ func NormalPdf(x, mu, sigma float64) float64 {
 func NormalCdf(x, mu, sigma float64) float64 {
 	erf := math.Erf((x - mu) / math.Sqrt2 / sigma)
 	return (1 + erf) / float64(2)
+}
+
+func InverseNormalCdf(p, mu, sigma, tolerance float64) float64 {
+	if mu != MU || sigma != SIGMA {
+		return mu + sigma*InverseNormalCdf(p, MU, SIGMA, tolerance)
+	}
+	lowZ := -10.0
+	hiZ := 10.0
+	var midZ, midP float64
+	for hiZ-lowZ > tolerance {
+		midZ = (lowZ + hiZ) / float64(2)
+		midP = NormalCdf(midZ, MU, SIGMA)
+		if midP < p {
+			lowZ = midZ
+		} else if midP > p {
+			hiZ = midZ
+		} else {
+			break
+		}
+	}
+	return midZ
 }
