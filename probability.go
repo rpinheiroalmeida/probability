@@ -33,5 +33,4 @@ func NormalPdf(x, mu, sigma float64) float64 {
 func NormalCdf(x, mu, sigma float64) float64 {
 	erf := math.Erf((x - mu) / math.Sqrt2 / sigma)
 	return (1 + erf) / float64(2)
-	// return (1 + math.erf((x - mu) / math.sqrt(2) / sigma) ) / 2
 }
