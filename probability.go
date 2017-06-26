@@ -1,6 +1,10 @@
 package probability
 
-import "math"
+import (
+	"fmt"
+	"math"
+	"math/rand"
+)
 
 const SIGMA = 1.0
 const MU = 0.0
@@ -55,4 +59,24 @@ func InverseNormalCdf(p, mu, sigma, tolerance float64) float64 {
 		}
 	}
 	return midZ
+}
+
+func BernoulliTrial(p float64) (result int64) {
+	if rand.Float64() < p {
+		result = 1
+	}
+	return
+}
+
+func Binomial(p float64, n int) (result int64) {
+	if !(0.0 <= p && p <= 1.0) {
+		panic(fmt.Sprintf("Invalid probability p: %f", p))
+	}
+	if n <= 0 {
+		panic(fmt.Sprintf("Invalid parameter n: %d", n))
+	}
+	for i := 1; i <= n; i++ {
+		result += BernoulliTrial(p)
+	}
+	return
 }
