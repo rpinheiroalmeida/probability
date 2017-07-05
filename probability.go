@@ -35,14 +35,14 @@ func NormalPdf(x, mu, σ float64) float64 {
 	return exp / (sqrtTwoPi * σ)
 }
 
-func NormalCdf(x, mu, sigma float64) float64 {
-	erf := math.Erf((x - mu) / math.Sqrt2 / sigma)
+func NormalCdf(x, μ, σ float64) float64 {
+	erf := math.Erf((x - μ) / math.Sqrt2 / σ)
 	return (1 + erf) / float64(2)
 }
 
-func InverseNormalCdf(p, μ, sigma, tolerance float64) float64 {
-	if μ != MU || sigma != Σ {
-		return μ + sigma*InverseNormalCdf(p, MU, Σ, tolerance)
+func InverseNormalCdf(p, μ, σ, tolerance float64) float64 {
+	if μ != MU || σ != Σ {
+		return μ + σ*InverseNormalCdf(p, MU, Σ, tolerance)
 	}
 	lowZ := -10.0
 	hiZ := 10.0
