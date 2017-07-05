@@ -6,7 +6,7 @@ import (
 	"math/rand"
 )
 
-const SIGMA = 1.0
+const Σ = 1.0
 const MU = 0.0
 const TOLERANCE = 0.00001
 
@@ -28,11 +28,11 @@ func UniformCdf(x float64) (result float64) {
 	return
 }
 
-func NormalPdf(x, mu, sigma float64) float64 {
+func NormalPdf(x, mu, σ float64) float64 {
 	sqrtTwoPi := math.Sqrt(2 * math.Pi)
 	powXmu := math.Pow((x - mu), 2)
-	exp := math.Exp(-(powXmu / (2 * math.Pow(sigma, 2))))
-	return exp / (sqrtTwoPi * sigma)
+	exp := math.Exp(-(powXmu / (2 * math.Pow(σ, 2))))
+	return exp / (sqrtTwoPi * σ)
 }
 
 func NormalCdf(x, mu, sigma float64) float64 {
@@ -40,16 +40,16 @@ func NormalCdf(x, mu, sigma float64) float64 {
 	return (1 + erf) / float64(2)
 }
 
-func InverseNormalCdf(p, mu, sigma, tolerance float64) float64 {
-	if mu != MU || sigma != SIGMA {
-		return mu + sigma*InverseNormalCdf(p, MU, SIGMA, tolerance)
+func InverseNormalCdf(p, μ, sigma, tolerance float64) float64 {
+	if μ != MU || sigma != Σ {
+		return μ + sigma*InverseNormalCdf(p, MU, Σ, tolerance)
 	}
 	lowZ := -10.0
 	hiZ := 10.0
 	var midZ, midP float64
 	for hiZ-lowZ > tolerance {
 		midZ = (lowZ + hiZ) / float64(2)
-		midP = NormalCdf(midZ, MU, SIGMA)
+		midP = NormalCdf(midZ, MU, Σ)
 		if midP < p {
 			lowZ = midZ
 		} else if midP > p {
